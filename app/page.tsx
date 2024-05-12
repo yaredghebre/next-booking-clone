@@ -29,12 +29,12 @@ export default function Home() {
         <div className="flex space-x-4 overflow-x-scroll py-5">
           {trendingData.map((item) => (
             <div key={item.id} className="shrink-0 cursor-pointer space-y-1">
-              <Image
+              <img
                 key={item.id}
-                width={300}
-                objectFit="cover"
-                height={300}
-                className="rounded-lg pb-2"
+                // width={300}
+                // objectFit="cover"
+                // height={300}
+                className="h-72 w-80 rounded-lg object-cover pb-2"
                 alt={`${item.title} picture`}
                 src={item.src}
               />

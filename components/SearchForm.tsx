@@ -53,7 +53,8 @@ function SearchForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // validator
+    // works as a validator!
+    // console.log(values);
   }
   return (
     <Form {...form}>
@@ -100,7 +101,7 @@ function SearchForm() {
                         name="dates"
                         variant={'outline'}
                         className={cn(
-                          'w-[300px] justify-start text-left font-normal',
+                          'w-full justify-start text-left font-normal lg:w-[300px]',
                           !field.value.from && 'text-muted-foreground',
                         )}
                       >
@@ -185,6 +186,13 @@ function SearchForm() {
                 </FormItem>
               )}
             />
+          </div>
+
+          {/* Submit */}
+          <div className="mt-auto">
+            <Button type="submit" className="bg-blue-500 text-base">
+              Search
+            </Button>
           </div>
         </div>
       </form>
