@@ -1,7 +1,7 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import * as z from 'zod';
 import React from 'react';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BedDoubleIcon, CalendarIcon } from 'lucide-react';
@@ -36,7 +36,7 @@ export const formSchema = z.object({
 });
 
 function SearchForm() {
-  //   const router = useRouter();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema), // to check values
@@ -52,9 +52,29 @@ function SearchForm() {
     },
   });
 
+  // works as a validator!
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // works as a validator!
     // console.log(values);
+    const checkInMonthday = values.dates.from.getDate().toString();
+    const checkInMonth = (values.dates.from.getMonth() + 1).toString();
+    const checkInYear = values.dates.from.getFullYear().toString();
+
+    const checkOutMonthday = values.dates.to.getDate().toString();
+    const checkOutMonth = (values.dates.to.getMonth() + 1).toString();
+    const checkOutYear = values.dates.to.getFullYear().toString();
+
+    const checkIn = `${checkInYear}-${checkInMonth}-${checkInMonthday}`;
+    const checkOut = `${checkOutYear}-${checkOutMonth}-${checkOutMonthday}`;
+
+    const url = new URL('https://www.booking.com/searchresults.html');
+    url.searchParams.set('ss', values.location);
+    url.searchParams.set('group_adults', values.adults);
+    url.searchParams.set('group_children', values.children);
+    url.searchParams.set('no_rooms', values.rooms);
+    url.searchParams.set('checkin', checkIn);
+    url.searchParams.set('checkout', checkOut);
+
+    router.push(`/search?url=${url.href}`);
   }
   return (
     <Form {...form}>
